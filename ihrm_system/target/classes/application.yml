@@ -1,0 +1,38 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: ihrm-system
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ihrm?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
+  jpa:
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: foobared
+jwt:
+  config:
+    key: saas-ihrm
+    ttl: 3600000
+ai:
+  appId: 22859002
+  apiKey: vUp1cbDoRZ3SikGq4NWzncBU
+  secretKey: r2LBlnxfsy45QfOHhKCUdy1RA5OKuGyz
+  imageType: BASE64
+  groupId: itcast
+qr:
+  url: https://192.168.204.1:8080/#/facelogin
+#微服务注册到eureka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}

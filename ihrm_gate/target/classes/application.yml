@@ -1,0 +1,48 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: ihrm-gate
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: foobared
+jwt:
+  config:
+    key: saas-ihrm
+    ttl: 3600000
+zuul:
+  routes:
+    #路由id,
+    ihrm-company:
+      path: /company/** #需要映射的路径地址
+      #url: http://127.0.0.1:9001/
+      serviceId: ihrm-company
+      #zuul 制动的会删除请求的前缀 127.0.0.1:9090/company
+      stripPrefix: false #不删除请求前缀
+      #处理敏感头信息
+      sentiviteHeaders: #将指定路由的敏感头设置为空
+      customSensitiveHeaders: true #对指定路由开启自定义敏感头
+    ihrm-system:
+      path: /system/** #需要映射的路径地址
+      #url: http://127.0.0.1:9002/
+      serviceId: ihrm-system
+      stripPrefix: false #不删除请求前缀
+      #处理敏感头信息
+      sentiviteHeaders: #将指定路由的敏感头设置为空
+      customSensitiveHeaders: true #对指定路由开启自定义敏感头
+    ihrm-employee:
+      path: /employees/** #需要映射的路径地址
+      #url: http://127.0.0.1:9003/
+      serviceId: ihrm-employee
+      stripPrefix: false
+      sentiviteHeaders: #将指定路由的敏感头设置为空
+      customSensitiveHeaders: true #对指定路由开启自定义敏感头
+#微服务注册到eureka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
